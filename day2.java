@@ -32,9 +32,10 @@ public class day2 {
                 aim -= Integer.valueOf(value);
             else if (key.equals("down"))
                 aim += Integer.valueOf(value);
-            else if (key.equals("forward"))
+            else if (key.equals("forward")) {
                 hor += Integer.valueOf(value);
-            depth += aim * Integer.valueOf(value);
+                depth += aim * Integer.valueOf(value);
+            }
         }
         return depth * hor;
     }

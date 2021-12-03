@@ -15,12 +15,10 @@ public class day3 {
         Scanner s = new Scanner(new File("input.txt"));
         LinkedList<HashMap<Integer, Integer>> bits = new LinkedList<>();
         String highest = "", lowest = "";
-        for (int i = 0; i < 12; i++)
-            bits.add(new HashMap<Integer, Integer>(Map.of(1, 0, 0, 0)));
+        for (int i = 0; i < 12; i++) bits.add(new HashMap<Integer, Integer>(Map.of(1, 0, 0, 0)));
         while (s.hasNext()) {
             String[] input = s.next().split("");
-            for (int i = 0; i < input.length; i++)
-                bits.get(i).put(Integer.valueOf(input[i]), bits.get(i).get(Integer.valueOf(input[i])) + 1);
+            for (int i = 0; i < input.length; i++) bits.get(i).put(Integer.valueOf(input[i]), bits.get(i).get(Integer.valueOf(input[i])) + 1);
         }
         for (int i = 0; i < 12; i++)
             if (Math.max(bits.get(i).get(0), bits.get(i).get(1)) == bits.get(i).get(0)) {

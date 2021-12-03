@@ -8,7 +8,7 @@ import java.util.Scanner;
 public class day3 {
     public static void main(String[] args) throws FileNotFoundException {
         System.out.println(excerciseOne());
-        System.out.println(exerciseTwo());
+        System.out.println(exerciseTwo(true) * exerciseTwo(false));
     }
 
     public static int excerciseOne() throws FileNotFoundException {
@@ -33,19 +33,13 @@ public class day3 {
         return Integer.parseInt(highest, 2) * Integer.parseInt(lowest, 2);
     }
 
-    public static int exerciseTwo() throws FileNotFoundException {
-        return twoHelper(true) * twoHelper(false);
-    }
-
-    private static int twoHelper(boolean one) throws FileNotFoundException {
+    public static int exerciseTwo(boolean one) throws FileNotFoundException {
         Scanner s = new Scanner(new File("input.txt"));
         LinkedList<String> list = new LinkedList<>(), listOne = new LinkedList<>(), listTwo = new LinkedList<>();
-        while (s.hasNext())
-            list.add(s.next());
+        while (s.hasNext()) list.add(s.next());
         int amountOne = 0, amountTwo = 0;
         for (int j = 0; j < 12; j++) {
-            if (amountOne + amountTwo == 1)
-                continue;
+            if (amountOne + amountTwo == 1) continue;
             amountOne = amountTwo = 0;
             listOne = new LinkedList<>();
             listTwo = new LinkedList<>();
@@ -58,8 +52,7 @@ public class day3 {
                     listTwo.add(list.get(i));
                 }
             }
-            list = one ? (amountOne >= amountTwo ? listOne : listTwo)
-                    : (amountOne < amountTwo && amountOne != 0 ? listOne : listTwo);
+            list = one ? (amountOne >= amountTwo ? listOne : listTwo) : (amountOne < amountTwo && amountOne != 0 ? listOne : listTwo);
         }
         return amountOne == 1 ? Integer.parseInt(listOne.get(0), 2) : Integer.parseInt(listTwo.get(0), 2);
     }

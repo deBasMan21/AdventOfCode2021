@@ -5,44 +5,34 @@ import java.util.Scanner;
 
 public class day4 {
     public static void main(String[] args) throws FileNotFoundException {
-        System.out.println(exerciseOne());
-        System.out.println(exerciseTwo());
+        System.out.println(exerciseOne(true));
+        System.out.println(exerciseOne(false));
     }
 
-    public static int exerciseOne() throws FileNotFoundException {
+    public static int exerciseOne(boolean one) throws FileNotFoundException {
         Scanner s = new Scanner(new File("input.txt"));
         String[] numberOrder = s.nextLine().split(",");
         LinkedList<int[][]> cards = createCards();
-        int indexOfQuickest = 0, quickestAmount = 100, lastNumber = 0;
+        int indexOfQuickest = 0, quickestAmount = one ? 100 : 0, lastNumber = 0;
         for (int i = 0; i < cards.size(); i++) {
             for (int j = 0; j < numberOrder.length; j++) {
                 cards.set(i, testNumber(cards.get(i), Integer.parseInt(numberOrder[j])));
-                if (testWin(cards.get(i)) && j < quickestAmount) {
-                    lastNumber = Integer.parseInt(numberOrder[j]);
-                    indexOfQuickest = i;
-                    quickestAmount = j;
-                    j = numberOrder.length - 1;
-                }
-            }
-        }
-        return calculateScore(cards.get(indexOfQuickest)) * lastNumber;
-    }
-
-    public static int exerciseTwo() throws FileNotFoundException {
-        Scanner s = new Scanner(new File("input.txt"));
-        String[] numberOrder = s.nextLine().split(",");
-        LinkedList<int[][]> cards = createCards();
-        int indexOfQuickest = 0, slowest = 0, lastNumber = 0;
-        for (int i = 0; i < cards.size(); i++) {
-            for (int j = 0; j < numberOrder.length; j++) {
-                cards.set(i, testNumber(cards.get(i), Integer.parseInt(numberOrder[j])));
-                if (testWin(cards.get(i))) {
-                    if (j > slowest) {
-                        slowest = j;
+                if (one) {
+                    if (testWin(cards.get(i)) && j < quickestAmount) {
                         lastNumber = Integer.parseInt(numberOrder[j]);
                         indexOfQuickest = i;
+                        quickestAmount = j;
+                        j = numberOrder.length - 1;
                     }
-                    j = numberOrder.length - 1;
+                } else {
+                    if (testWin(cards.get(i))) {
+                        if (j > quickestAmount) {
+                            quickestAmount = j;
+                            lastNumber = Integer.parseInt(numberOrder[j]);
+                            indexOfQuickest = i;
+                        }
+                        j = numberOrder.length - 1;
+                    }
                 }
             }
         }
@@ -56,9 +46,8 @@ public class day4 {
         while (s.hasNext()) {
             int[][] bingoCard = new int[5][5];
             for (int i = 0; i < 5; i++) {
-                for (int j = 0; j < 5; j++) {
+                for (int j = 0; j < 5; j++)
                     bingoCard[i][j] = Integer.parseInt(s.next());
-                }
             }
             cards.add(bingoCard);
         }

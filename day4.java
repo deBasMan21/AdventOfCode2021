@@ -16,18 +16,15 @@ public class day4 {
         int indexOfQuickest = 0, quickestAmount = one ? 100 : 0, lastNumber = 0, i = 0, score = 0;
         while (s.hasNext()) {
             int[][] bingoCard = new int[5][5];
-            for (int k = 0; k < 5; k++) {
+            for (int k = 0; k < 5; k++)
                 for (int j = 0; j < 5; j++)
                     bingoCard[k][j] = Integer.parseInt(s.next());
-            }
             cards.add(bingoCard);
             for (int j = 0; j < numberOrder.length; j++) {
-                for (int k = 0; k < 5; k++) {
-                    for (int l = 0; l < 5; l++) {
+                for (int k = 0; k < 5; k++)
+                    for (int l = 0; l < 5; l++)
                         if (cards.get(i)[k][l] == Integer.parseInt(numberOrder[j]))
                             cards.get(i)[k][l] = -1;
-                    }
-                }
                 boolean win = false;
                 for (int k = 0; k < 5; k++) {
                     int valueHor = 0, valueVer = 0;

@@ -12,79 +12,52 @@ public class day4 {
     public static int exerciseOne(boolean one) throws FileNotFoundException {
         Scanner s = new Scanner(new File("input.txt"));
         String[] numberOrder = s.nextLine().split(",");
-        LinkedList<int[][]> cards = createCards();
-        int indexOfQuickest = 0, quickestAmount = one ? 100 : 0, lastNumber = 0;
-        for (int i = 0; i < cards.size(); i++) {
+        LinkedList<int[][]> cards = new LinkedList<>();
+        int indexOfQuickest = 0, quickestAmount = one ? 100 : 0, lastNumber = 0, i = 0, score = 0;
+        while (s.hasNext()) {
+            int[][] bingoCard = new int[5][5];
+            for (int k = 0; k < 5; k++) {
+                for (int j = 0; j < 5; j++)
+                    bingoCard[k][j] = Integer.parseInt(s.next());
+            }
+            cards.add(bingoCard);
             for (int j = 0; j < numberOrder.length; j++) {
-                cards.set(i, testNumber(cards.get(i), Integer.parseInt(numberOrder[j])));
-                if (one) {
-                    if (testWin(cards.get(i)) && j < quickestAmount) {
-                        lastNumber = Integer.parseInt(numberOrder[j]);
-                        indexOfQuickest = i;
-                        quickestAmount = j;
-                        j = numberOrder.length - 1;
+                for (int k = 0; k < 5; k++) {
+                    for (int l = 0; l < 5; l++) {
+                        if (cards.get(i)[k][l] == Integer.parseInt(numberOrder[j]))
+                            cards.get(i)[k][l] = -1;
                     }
-                } else {
-                    if (testWin(cards.get(i))) {
-                        if (j > quickestAmount) {
-                            quickestAmount = j;
-                            lastNumber = Integer.parseInt(numberOrder[j]);
-                            indexOfQuickest = i;
-                        }
+                }
+                boolean win = false;
+                for (int k = 0; k < 5; k++) {
+                    int valueHor = 0, valueVer = 0;
+                    for (int l = 0; l < 5; l++) {
+                        valueHor += cards.get(i)[k][l];
+                        valueVer += cards.get(i)[l][k];
+                    }
+                    if (valueVer == -5 || valueHor == -5)
+                        win = true;
+                }
+                if (win) {
+                    lastNumber = one ? (j < quickestAmount ? Integer.parseInt(numberOrder[j]) : lastNumber)
+                            : (j > quickestAmount ? Integer.parseInt(numberOrder[j]) : lastNumber);
+                    indexOfQuickest = one ? (j < quickestAmount ? i : indexOfQuickest)
+                            : (j > quickestAmount ? i : indexOfQuickest);
+                    if (!one) {
+                        quickestAmount = j > quickestAmount ? j : quickestAmount;
+                        j = numberOrder.length - 1;
+                    } else if (j < quickestAmount) {
+                        quickestAmount = j;
                         j = numberOrder.length - 1;
                     }
                 }
             }
+            i++;
         }
-        return calculateScore(cards.get(indexOfQuickest)) * lastNumber;
-    }
-
-    private static LinkedList<int[][]> createCards() throws FileNotFoundException {
-        Scanner s = new Scanner(new File("input.txt"));
-        s.nextLine();
-        LinkedList<int[][]> cards = new LinkedList<>();
-        while (s.hasNext()) {
-            int[][] bingoCard = new int[5][5];
-            for (int i = 0; i < 5; i++) {
-                for (int j = 0; j < 5; j++)
-                    bingoCard[i][j] = Integer.parseInt(s.next());
-            }
-            cards.add(bingoCard);
-        }
-        return cards;
-    }
-
-    private static boolean testWin(int[][] card) {
-        for (int k = 0; k < 5; k++) {
-            int valueHor = 0, valueVer = 0;
-            for (int l = 0; l < 5; l++) {
-                valueHor += card[k][l];
-                valueVer += card[l][k];
-            }
-            if (valueVer == -5 || valueHor == -5)
-                return true;
-        }
-        return false;
-    }
-
-    private static int[][] testNumber(int[][] card, int num) {
-        for (int k = 0; k < 5; k++) {
-            for (int l = 0; l < 5; l++) {
-                if (card[k][l] == num)
-                    card[k][l] = -1;
-            }
-        }
-        return card;
-    }
-
-    private static int calculateScore(int[][] card) {
-        int score = 0;
-        for (int i = 0; i < 5; i++) {
-            for (int j = 0; j < 5; j++) {
-                if (card[i][j] != -1)
-                    score += card[i][j];
-            }
-        }
-        return score;
+        for (int k = 0; k < 5; k++)
+            for (int j = 0; j < 5; j++)
+                if (cards.get(indexOfQuickest)[k][j] != -1)
+                    score += cards.get(indexOfQuickest)[k][j];
+        return score * lastNumber;
     }
 }

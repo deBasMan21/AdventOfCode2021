@@ -11,11 +11,10 @@ public class day6 {
     }
 
     public static long exerciseOne(boolean one) throws FileNotFoundException {
-        Scanner s = new Scanner(new File("input.txt"));
-        String[] input = s.nextLine().split(",");
+        String[] input = new Scanner(new File("input.txt")).nextLine().split(",");
         HashMap<Integer, Long> fish = new HashMap<>();
         for (String string : input) fish.put(Integer.parseInt(string), fish.get(Integer.parseInt(string)) != null ? fish.get(Integer.parseInt(string)) + 1L : 1L);
-        long zero = 0, value = 0;
+        long zero = 0;
         for (int i = 0; i < (one ? 80 : 256); i++) {
             zero = fish.get(0) != null ? fish.get(0) : 0;
             for (int j = 0; j < 9; j++)

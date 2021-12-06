@@ -23,7 +23,6 @@ public class day6 {
                 else if (j == 8) fish.put(j, zero);
                 else fish.put(j, fish.get(j + 1) != null ? fish.get(j + 1) : 0);
         }
-        for (Map.Entry<Integer, Long> entry : fish.entrySet()) value += entry.getValue();
-        return value;
+        return fish.values().stream().mapToLong(Long::longValue).sum();
     }
 }

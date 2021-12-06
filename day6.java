@@ -19,8 +19,7 @@ public class day6 {
             zero = fish.get(0) != null ? fish.get(0) : 0;
             for (int j = 0; j < 9; j++)
                 if (j == 6) fish.put(j, (fish.get(j + 1) != null ? fish.get(j + 1) : 0) + zero);
-                else if (j == 8) fish.put(j, zero);
-                else fish.put(j, fish.get(j + 1) != null ? fish.get(j + 1) : 0);
+                else fish.put(j, j == 8 ? zero : (fish.get(j + 1) != null ? fish.get(j + 1) : 0));
         }
         return fish.values().stream().mapToLong(Long::longValue).sum();
     }

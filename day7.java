@@ -13,7 +13,7 @@ public class day7 {
     public static int exerciseOne(boolean one) throws FileNotFoundException {
         String[] input = new Scanner(new File("input.txt")).nextLine().split(",");
         HashMap<Integer, Integer> crabs = new HashMap<>();
-        for (String string : input) crabs.put(Integer.parseInt(string), crabs.get(Integer.parseInt(string)) != null ? crabs.get(Integer.parseInt(string)) + 1 : 1);
+        for (String string : input) crabs.put(Integer.parseInt(string), crabs.getOrDefault(Integer.parseInt(string), 0) + 1);
         int amount = 0;
         for (int i = 1; i < 2000; i++) {
             int fuel = 0;

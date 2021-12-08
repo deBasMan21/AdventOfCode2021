@@ -21,14 +21,15 @@ public class day8 {
         for (String strings : input) {
             char[] segments = { ' ', ' ', ' ', ' ', ' ', ' ', ' ' };
             String[] numbers = strings.split(" | "), answer = { numbers[11], numbers[12], numbers[13], numbers[14] };
+            int[] amounts = {0, 0, 0, 0, 0, 0, 0, 0};
+            String twoChar = "", threeChar = "", value = "";
+            HashMap<String, Integer> letters = new HashMap<>();
             for (int i = 10; i < 15; i++) numbers[i] = "";
-            String twoChar = "", threeChar = "";
             for (String string : numbers)
                 if (string.length() == 2) twoChar = string;
                 else if (string.length() == 3) threeChar = string;
             for (int i = 0; i < 2; i++) threeChar = threeChar.replace(twoChar.charAt(i), ' ');
             segments[0] = threeChar.trim().charAt(0);
-            HashMap<String, Integer> letters = new HashMap<>();
             for (String string : numbers)
                 for (int i = 0; i < string.length(); i++) letters.put(string.charAt(i) + "", letters.getOrDefault(string.charAt(i) + "", 0) + 1);
             for (Entry<String, Integer> entry : letters.entrySet())
@@ -40,13 +41,8 @@ public class day8 {
                 if (string.length() == 4) segments[3] = string.replace(segments[1], ' ').replace(segments[2], ' ').replace(segments[5], ' ').trim().charAt(0);
             for (String string : numbers)
                 if (string.length() == 7) segments[6] = string.replace(segments[0], ' ').replace(segments[1], ' ').replace(segments[2], ' ').replace(segments[3], ' ').replace(segments[4], ' ').replace(segments[5], ' ').trim().charAt(0);
-            int one = 0, four = 0, seven = 0, eight = 0;
             for (String string : answer)
-                if (string.length() == 2) one++;
-                else if (string.length() == 4) four++;
-                else if (string.length() == 3) seven++;
-                else if (string.length() == 7) eight++;
-            String value = "";
+                amounts[string.length()] += 1;
             for (String string : answer) {
                 String result = "";
                 for (int i = 0; i < string.length(); i++)
@@ -54,7 +50,7 @@ public class day8 {
                         if (string.charAt(i) == segments[j]) result += segmentLetters[j];
                 value += decodeString(result) + "";
             }
-            total += one + four + seven + eight;
+            total += amounts[2] + amounts[4] + amounts[3] + amounts[7];
             sum += Integer.parseInt(value);
         }
         return exOne ? total : sum;

@@ -28,8 +28,7 @@ public class day8 {
             for (String string : numbers)
                 if (string.length() == 2) twoChar = string;
                 else if (string.length() == 3) threeChar = string;
-            for (int i = 0; i < 2; i++) threeChar = threeChar.replace(twoChar.charAt(i), ' ');
-            segments[0] = threeChar.trim().charAt(0);
+            segments[0] = threeChar.replace(twoChar.charAt(0), ' ').replace(twoChar.charAt(1), ' ').trim().charAt(0);
             for (String string : numbers)
                 for (int i = 0; i < string.length(); i++) letters.put(string.charAt(i) + "", letters.getOrDefault(string.charAt(i) + "", 0) + 1);
             for (Entry<String, Integer> entry : letters.entrySet())

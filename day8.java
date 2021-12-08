@@ -17,61 +17,41 @@ public class day8 {
         LinkedList<String> input = new LinkedList<>();
         int total = 0, sum = 0;
         String[] segmentLetters = { "a", "b", "c", "d", "e", "f", "g" };
-        while (s.hasNextLine())
-            input.add(s.nextLine());
+        while (s.hasNextLine()) input.add(s.nextLine());
         for (String strings : input) {
             char[] segments = { ' ', ' ', ' ', ' ', ' ', ' ', ' ' };
             String[] numbers = strings.split(" | "), answer = { numbers[11], numbers[12], numbers[13], numbers[14] };
-            for (int i = 10; i < 15; i++)
-                numbers[i] = "";
+            for (int i = 10; i < 15; i++) numbers[i] = "";
             String twoChar = "", threeChar = "";
             for (String string : numbers)
-                if (string.length() == 2)
-                    twoChar = string;
-                else if (string.length() == 3)
-                    threeChar = string;
-            for (int i = 0; i < 2; i++)
-                threeChar = threeChar.replace(twoChar.charAt(i), ' ');
+                if (string.length() == 2) twoChar = string;
+                else if (string.length() == 3) threeChar = string;
+            for (int i = 0; i < 2; i++) threeChar = threeChar.replace(twoChar.charAt(i), ' ');
             segments[0] = threeChar.trim().charAt(0);
             HashMap<String, Integer> letters = new HashMap<>();
             for (String string : numbers)
-                for (int i = 0; i < string.length(); i++)
-                    letters.put(string.charAt(i) + "", letters.getOrDefault(string.charAt(i) + "", 0) + 1);
+                for (int i = 0; i < string.length(); i++) letters.put(string.charAt(i) + "", letters.getOrDefault(string.charAt(i) + "", 0) + 1);
             for (Entry<String, Integer> entry : letters.entrySet())
-                if (entry.getValue() == 6)
-                    segments[1] = entry.getKey().charAt(0);
-                else if (entry.getValue() == 8 && entry.getKey().charAt(0) != segments[0])
-                    segments[2] = entry.getKey().charAt(0);
-                else if (entry.getValue() == 4)
-                    segments[4] = entry.getKey().charAt(0);
-                else if (entry.getValue() == 9)
-                    segments[5] = entry.getKey().charAt(0);
+                if (entry.getValue() == 6) segments[1] = entry.getKey().charAt(0);
+                else if (entry.getValue() == 8 && entry.getKey().charAt(0) != segments[0]) segments[2] = entry.getKey().charAt(0);
+                else if (entry.getValue() == 4) segments[4] = entry.getKey().charAt(0);
+                else if (entry.getValue() == 9) segments[5] = entry.getKey().charAt(0);
             for (String string : numbers)
-                if (string.length() == 4)
-                    segments[3] = string.replace(segments[1], ' ').replace(segments[2], ' ').replace(segments[5], ' ')
-                            .trim().charAt(0);
+                if (string.length() == 4) segments[3] = string.replace(segments[1], ' ').replace(segments[2], ' ').replace(segments[5], ' ').trim().charAt(0);
             for (String string : numbers)
-                if (string.length() == 7)
-                    segments[6] = string.replace(segments[0], ' ').replace(segments[1], ' ').replace(segments[2], ' ')
-                            .replace(segments[3], ' ').replace(segments[4], ' ').replace(segments[5], ' ').trim()
-                            .charAt(0);
+                if (string.length() == 7) segments[6] = string.replace(segments[0], ' ').replace(segments[1], ' ').replace(segments[2], ' ').replace(segments[3], ' ').replace(segments[4], ' ').replace(segments[5], ' ').trim().charAt(0);
             int one = 0, four = 0, seven = 0, eight = 0;
             for (String string : answer)
-                if (string.length() == 2)
-                    one++;
-                else if (string.length() == 4)
-                    four++;
-                else if (string.length() == 3)
-                    seven++;
-                else if (string.length() == 7)
-                    eight++;
+                if (string.length() == 2) one++;
+                else if (string.length() == 4) four++;
+                else if (string.length() == 3) seven++;
+                else if (string.length() == 7) eight++;
             String value = "";
             for (String string : answer) {
                 String result = "";
                 for (int i = 0; i < string.length(); i++)
                     for (int j = 0; j < 7; j++)
-                        if (string.charAt(i) == segments[j])
-                            result += segmentLetters[j];
+                        if (string.charAt(i) == segments[j]) result += segmentLetters[j];
                 value += decodeString(result) + "";
             }
             total += one + four + seven + eight;
@@ -85,8 +65,7 @@ public class day8 {
         char[] charArray = input.toCharArray();
         Arrays.sort(charArray);
         for (int i = 0; i < options.length; i++)
-            if (new String(charArray).equals(options[i]))
-                return i;
+            if (new String(charArray).equals(options[i])) return i;
         return -1;
     }
 }

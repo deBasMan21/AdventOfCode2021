@@ -41,11 +41,11 @@ public class day9 {
 
     private static void isPossible(int[][] grid, int i, int j, Set<GridEntry> values) {
         if (grid[i][j] == 9) return;
-        values.add(new GridEntry(i, j));
-        if (i != 0 && grid[i - 1][j] > grid[i][j]) isPossible(grid, i - 1, j, values);
-        if (i != 99 && grid[i + 1][j] > grid[i][j]) isPossible(grid, i + 1, j, values);
-        if (j != 0 && grid[i][j - 1] > grid[i][j]) isPossible(grid, i, j - 1, values);
-        if (j != 99 && grid[i][j + 1] > grid[i][j]) isPossible(grid, i, j + 1, values); 
+        boolean exists = values.add(new GridEntry(i, j));
+        if (exists && i != 0 && grid[i - 1][j] > grid[i][j]) isPossible(grid, i - 1, j, values);
+        if (exists && i != 99 && grid[i + 1][j] > grid[i][j]) isPossible(grid, i + 1, j, values);
+        if (exists && j != 0 && grid[i][j - 1] > grid[i][j]) isPossible(grid, i, j - 1, values);
+        if (exists && j != 99 && grid[i][j + 1] > grid[i][j]) isPossible(grid, i, j + 1, values); 
     }
 
     private static class GridEntry {

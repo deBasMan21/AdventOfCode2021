@@ -27,13 +27,13 @@ public class day9 {
         for (int i = 0; i < grid.length; i++)
             for (int j = 0; j < grid[0].length; j++) {
                 boolean lowest = (i == 0 || grid[i - 1][j] > grid[i][j]) && (i == 99 || grid[i + 1][j] > grid[i][j]) && (j == 0 || grid[i][j - 1] > grid[i][j]) && (j == 99 || grid[i][j + 1] > grid[i][j]);
+                boolean isSmallest = (i == 0 || grid[i - 1][j] > grid[i][j]) && (i == 99 || grid[i + 1][j] > grid[i][j]) && (j == 0 || grid[i][j - 1] > grid[i][j]) && (j == 99 || grid[i][j + 1] > grid[i][j]);
                 Set<GridEntry> values = new HashSet<>();
+                score += isSmallest ? grid[i][j] + 1 : 0;
                 if (lowest) {
                     isPossible(grid, i, j, values);
                     sizes.add(values.size());
                 }
-                boolean isSmallest = (i == 0 || grid[i - 1][j] > grid[i][j]) && (i == 99 || grid[i + 1][j] > grid[i][j]) && (j == 0 || grid[i][j - 1] > grid[i][j]) && (j == 99 || grid[i][j + 1] > grid[i][j]);
-                score += isSmallest ? grid[i][j] + 1 : 0;
             }
         sizes.sort(Comparator.naturalOrder());
         return one ? score : sizes.get(sizes.size() - 1) * sizes.get(sizes.size() - 2) * sizes.get(sizes.size() - 3);
@@ -48,7 +48,7 @@ public class day9 {
         if (j != 99 && grid[i][j + 1] > grid[i][j]) isPossible(grid, i, j + 1, values); 
     }
 
-    static class GridEntry {
+    private static class GridEntry {
         int x;
         int y;
  
@@ -59,8 +59,6 @@ public class day9 {
  
         @Override
         public boolean equals(Object obj) {
-            if (this == obj) return true;
-            if (obj == null || getClass() != obj.getClass()) return false;
             GridEntry point = (GridEntry) obj;
             return x == point.x && y == point.y;
         }

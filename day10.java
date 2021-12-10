@@ -11,7 +11,6 @@ public class day10 {
         Scanner s = new Scanner(new File("input.txt"));
         int score = 0;
         ArrayList<Long> scores = new ArrayList<>();
-        HashMap<String, Boolean> charachters = new HashMap<>(Map.of("(", true, ")", false, "[", true, "]", false, "{", true, "}", false, "<", true, ">", false));
         HashMap<String, Integer> characterValues = new HashMap<>(Map.of(")", 3, "]", 57, "}", 1197, ">", 25137)), characterValuesExTwo = new HashMap<>(Map.of("(", 1, "[", 2, "{", 3, "<", 4));
         HashMap<String, String> characterOpposites = new HashMap<>(Map.of("(", ")", "[", "]", "{", "}", "<", ">"));
         while(s.hasNextLine()){
@@ -19,7 +18,7 @@ public class day10 {
             Stack<String> charStack = new Stack<>();
             boolean isCorrupt = false;
             for (String string : inputLine)
-                if(charachters.get(string)) charStack.push(string);
+                if(string.equals("(") || string.equals("[") || string.equals("{") || string.equals("<")) charStack.push(string);
                 else if(characterOpposites.get(charStack.peek()).equals(string)) charStack.pop();
                 else {
                     score += characterValues.get(string);
@@ -27,10 +26,8 @@ public class day10 {
                     break;
                 }
             long subScore = 0;
-            if(charStack.size() > 0 && !isCorrupt){
-                for(int i = charStack.size(); i > 0; i--) subScore = subScore * 5 + characterValuesExTwo.get(charStack.pop());
-                scores.add(subScore);
-            }
+            for(int i = charStack.size(); i > 0; i--) subScore = !isCorrupt ? subScore * 5 + characterValuesExTwo.get(charStack.pop()) : subScore;
+            boolean useless = subScore > 0 ? scores.add(subScore) : false;
         }
         Collections.sort(scores);
         return one ? score : scores.get(scores.size() / 2);

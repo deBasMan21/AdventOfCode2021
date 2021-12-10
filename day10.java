@@ -26,10 +26,11 @@ public class day10 {
                     isCorrupt = true;
                     break;
                 }
-            long subScore = 0, stackSize = charStack.size();
-            if(charStack.size() > 0 && !isCorrupt)
-                for(int i = 0; i < stackSize; i++) subScore = subScore * 5 + characterValuesExTwo.get(charStack.pop());
-            scores.add(subScore);
+            long subScore = 0;
+            if(charStack.size() > 0 && !isCorrupt){
+                for(int i = charStack.size(); i > 0; i--) subScore = subScore * 5 + characterValuesExTwo.get(charStack.pop());
+                scores.add(subScore);
+            }
         }
         Collections.sort(scores);
         return one ? score : scores.get(scores.size() / 2);

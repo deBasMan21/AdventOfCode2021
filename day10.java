@@ -27,7 +27,7 @@ public class day10 {
                 }
             long subScore = 0;
             for(int i = charStack.size(); i > 0; i--) subScore = !isCorrupt ? subScore * 5 + characterValuesExTwo.get(charStack.pop()) : subScore;
-            boolean useless = subScore > 0 ? scores.add(subScore) : false;
+            if(subScore > 0) scores.add(subScore);
         }
         Collections.sort(scores);
         return one ? score : scores.get(scores.size() / 2);

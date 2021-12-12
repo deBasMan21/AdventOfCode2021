@@ -32,16 +32,16 @@ public class day12 {
         visited.add(start);
         if (start.equals(end)) counter++;
         else
-            for (String conn : connections.get(start)) {
+            for (String connection : connections.get(start)) {
                 LinkedList<String> currentPath = new LinkedList<>(visited);
-                if (canVisit(conn, visited, one)) findPath(conn, end, visited, one, connections);
+                if (canVisit(connection, visited, one)) findPath(connection, end, visited, one, connections);
                 visited = new LinkedList<>(currentPath);
             }
     }
 
-    private static boolean canVisit(String conn, List<String> visited, boolean one) {
-        if (conn.equals("start")) return false;
-        if (conn.matches("^[A-Z]+$") || !visited.contains(conn)) return true;
+    private static boolean canVisit(String connection, List<String> visited, boolean one) {
+        if (connection.equals("start")) return false;
+        if (Character.isUpperCase(connection.charAt(0)) || !visited.contains(connection)) return true;
         HashSet<String> uniqueSmallCavesVisited = new HashSet<>();
         LinkedList<String> smallCavesVisited = new LinkedList<>();
         for (String string : visited) 
@@ -49,6 +49,6 @@ public class day12 {
                 smallCavesVisited.add(string); 
                 uniqueSmallCavesVisited.add(string);
             }
-        return one ? !visited.contains(conn) : (uniqueSmallCavesVisited.size() == smallCavesVisited.size());
+        return one ? !visited.contains(connection) : (uniqueSmallCavesVisited.size() == smallCavesVisited.size());
     }
 }
